@@ -1,5 +1,5 @@
 import express from 'express';
-import { stockIn, stockOut } from '../Controllers/stock.controller.js';
+import { stockIn, stockOut } from '../Controllers/stockMovement.controller.js';
 import { verifyToken, isAdmin } from '../middlewares/auth.middleware.js';
 
 

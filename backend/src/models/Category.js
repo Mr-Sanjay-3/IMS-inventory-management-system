@@ -7,8 +7,20 @@ const categorySchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    description: String,
+    description:{
+     type: String,
+
+    },
+    status:{
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active"
+
+    }
   },
+  
+
+  
   { timestamps: true }
 );
 
