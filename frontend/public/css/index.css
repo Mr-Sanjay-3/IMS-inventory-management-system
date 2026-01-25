@@ -1,0 +1,12 @@
+@use 'styles/_colors.scss';
+.container {
+  background-color: rgb(255, 109, 109);
+  color: red;
+  background: #000;
+}
+
+.container h1 {
+  color: red;
+}
+
+/*# sourceMappingURL=index.css.map */
