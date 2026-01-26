@@ -1,20 +1,21 @@
-import Alert from "../models/LowStockAertSchema";
+import LowStockAlert from "../models/LowStockAlert.js";
 
-export const checkLowStock = async (product) =>{
-    if (product.quantitiy <= product.minStock) {
-        await Alert.findOneAndUpdate(
-            {product: product._id},
-            {
-                product : product._id,
-                msg: `Low stock alert: ${product.name} (${product.quantitiy} left)`,
-                isResolved:false
-            },
-            {upsert : true , new: true}
-        );
-    }else{
-        await Alert.findOneAndUpdate(
-            {product: product._id},
-            {isResolved : true}
-        );
-    }
-}
+export const checkLowStock = async (product) => {
+  if (product.quantity <= product.minStock) {
+    await LowStockAlert.findOneAndUpdate(
+      { product: product._id },
+      {
+        product: product._id,
+        currentQuantity: product.quantity,
+        minStock: product.minStock,
+        status: "active"
+      },
+      { upsert: true, new: true }
+    );
+  } else {
+    await LowStockAlert.findOneAndUpdate(
+      { product: product._id },
+      { status: "resolved" }
+    );
+  }
+};
