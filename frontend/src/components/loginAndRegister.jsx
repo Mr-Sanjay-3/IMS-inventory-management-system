@@ -1,100 +1,12 @@
-// import React, { useState } from 'react';
-// import '../SCSS/login.scss';
-
-// function App() {
-//   const [isRegister, setIsRegister] = useState(false);
-
-//   return (
-//     <div className="Login">
-//       <div className="login-container">
-
-//         {/* LEFT : FLIP ONLY THIS */}
-//         <div className="login-left flip-wrapper">
-//           <div className={`flip-inner ${isRegister ? 'flipped' : ''}`}>
-
-//             {/* LOGIN */}
-//             <div className="flip-front">
-              
-//               <h2>Login</h2>
-//               <p>See your growth and get support</p>
-
-//               <form className="login-form">
-//                 <div className="input-group">
-//                   <label>Email</label>
-//                   <input type="email" placeholder="Enter your email" />
-//                 </div>
-
-//                 <div className="input-group">
-//                   <label>Password</label>
-//                   <input type="password" placeholder="Enter your password" />
-//                 </div>
-
-//                 <button type="submit">Login</button>
-//                 <button
-//                   type="button"
-//                   id="login"
-//                   onClick={() => setIsRegister(true)}
-//                 >
-//                   Register
-//                 </button>
-//               </form>
-//             </div>
-
-//             {/* REGISTER */}
-//             <div className="flip-back">
-//               <h2>Register</h2>
-
-//               <form className="login-form">
-//                 <div className="input-group">
-//                   <label>Name</label>
-//                   <input type="text" placeholder="Enter your name" />
-//                 </div>
-
-//                 <div className="input-group">
-//                   <label>Email</label>
-//                   <input type="email" placeholder="Enter your email" />
-//                 </div>
-
-//                 <div className="input-group">
-//                   <label>Password</label>
-//                   <input type="password" placeholder="Create password" />
-//                 </div>
-
-//                 <div className="input-group">
-//                   <label>Role</label>
-//                   <select>
-//                     <option value="">Select role</option>
-//                     <option value="staff">Staff</option>
-//                   </select>
-//                 </div>
-
-//                 <button type="submit">Register</button>
-//                 <button
-//                   type="button"
-//                   id="login"
-//                   onClick={() => setIsRegister(false)}
-//                 >
-//                   Login
-//                 </button>
-//               </form>
-//             </div>
-
-//           </div>
-//         </div>
-//         <div className="login-right">
-//           <div className="quiet-space"></div>
-//         </div>
-
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default App;
 import React, { useState } from 'react';
+import {  useNavigate } from 'react-router-dom';
 import '../SCSS/login.scss';
 
+//Axios Config Importing
+import {loginUser, registerUser }from '../api/axios'
+
 function App() {
+  const navigate = useNavigate();
   const [isRegister, setIsRegister] = useState(false);
 
   // LOGIN STATE
@@ -114,7 +26,7 @@ function App() {
   const [registerErrors, setRegisterErrors] = useState({});
 
   // LOGIN SUBMIT
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     const errors = {};
@@ -123,13 +35,38 @@ function App() {
 
     setLoginErrors(errors);
 
-    if (Object.keys(errors).length === 0) {
-      console.log('Login success', loginData);
-    }
-  };
+    if (Object.keys(errors).length !== 0) return;
+
+
+  try {
+    const res = await loginUser(loginData);
+
+    //Token Save On Local Storage
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+    console.log("Login Success", res.data);
+     
+    //affter login Fix as Admin or Staff
+
+   if (res.data.user.role === "admin") {
+    navigate("/admin")
+    
+   }else{
+    navigate("/staff")
+   }
+    
+  } catch (error) {
+    console.log(error);
+    alert(error.respose?.data?.msg || "Login Faild")
+    
+  }  
+  
+   
+
+};
 
   // REGISTER SUBMIT
-  const handleRegister = (e) => {
+  const handleRegister = async(e) => {
     e.preventDefault();
 
     const errors = {};
@@ -140,8 +77,18 @@ function App() {
 
     setRegisterErrors(errors);
 
-    if (Object.keys(errors).length === 0) {
-      console.log('Register success', registerData);
+    if (Object.keys(errors).length !== 0) return;
+
+    try {
+      const res = await registerUser(registerData);
+      console.log("Register Done", res.data);
+
+      //Move Back Login
+      setIsRegister(false)
+      
+    } catch (error) {
+      console.log(error.response?.dtata?.msg || "Register fialid");
+      
     }
   };
 
@@ -249,7 +196,7 @@ function App() {
                       setRegisterErrors({ ...registerErrors, role: false });
                     }}
                   >
-                    <option value="">Select role</option>
+                    <option value="" id='select'>Select role</option>
                     <option value="staff">Staff</option>
                   </select>
                 </div>

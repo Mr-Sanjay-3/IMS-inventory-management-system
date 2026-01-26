@@ -5,14 +5,17 @@
   "type": "module",
   "scripts": {
     "sass-dev": "sass --watch --style=expanded src/scss:public/css",
-        "dev": "vite",
+    "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.13.3",
+    "lottie-react": "^2.4.1",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
