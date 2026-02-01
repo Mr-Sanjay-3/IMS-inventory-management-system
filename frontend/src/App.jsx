@@ -4,16 +4,20 @@ import Login from './components/loginAndRegister.jsx';
 import ProtuctedRouter from './components/ProtuctRoute.jsx';
 import Dashboard from './pages/adminDashBoard.jsx';
 import NotFound from './Subcomponents/notFoundPage.jsx';
+import SideNavbar from './Subcomponents/sideNavbar.jsx';
+import ProductPage from './pages/productPage.jsx'
+
 
 const App = () => {
   return (
    <>
+  
    
-<BrowserRouter >
+ <BrowserRouter >
+
 <Routes>
   <Route path='/' element={<Navigate to={'/login' } replace />} />
 <Route path='/login'  element={<Login />} />
-
 <Route
 path='/admin' 
 element={
@@ -21,17 +25,17 @@ element={
 <Dashboard />
   </ProtuctedRouter> 
  }
-
-
 />
+<Route path='/api/product' element={<ProductPage />}  />
 <Route path ="*" element={<NotFound />} />
-
  </Routes>
+
  </BrowserRouter>
+  
+ 
 
+   </> 
 
-
-   </>
   )
 }
 

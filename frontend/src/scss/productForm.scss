@@ -1,0 +1,50 @@
+@import './_variable.scss';
+form {
+    background: #fff;
+    padding: 25px;
+    border-radius: $radius;
+    max-width: 550px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  
+    input,
+    select {
+      padding: 12px;
+      border-radius: $radius;
+      border: 1px solid $border;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s;
+  
+      &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+      }
+    }
+  
+    input,
+    select {
+      width: 100%;
+    }
+  
+    button {
+      grid-column: span 2;
+      padding: 13px;
+      border: none;
+      border-radius: $radius;
+      font-size: 16px;
+      background: $primary;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+  
+      &:hover {
+        background: darken($primary, 8%);
+      }
+    }
+  }

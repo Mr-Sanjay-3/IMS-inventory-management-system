@@ -197,6 +197,7 @@ function App() {
                     }}
                   >
                     <option value="" id='select'>Select role</option>
+                    <option value="admin">Admin</option>
                     <option value="staff">Staff</option>
                   </select>
                 </div>

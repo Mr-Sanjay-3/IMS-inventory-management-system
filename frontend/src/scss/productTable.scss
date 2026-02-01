@@ -1,0 +1,62 @@
+@import "./_variable.scss";
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: $radius;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+
+  thead {
+    background: $secondary;
+
+    th {
+      color: #fff;
+      padding: 14px;
+      font-weight: 600;
+      text-align: left;
+      font-size: 14px;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid $border;
+      transition: 0.2s;
+
+      &:hover {
+        background: #f9fafb;
+      }
+    }
+
+    td {
+      padding: 14px;
+      font-size: 14px;
+      color: $text;
+    }
+
+    button {
+      padding: 6px 14px;
+      border-radius: $radius;
+      border: none;
+      font-size: 13px;
+      cursor: pointer;
+      margin-right: 8px;
+
+      &.edit {
+        background: #22c55e;
+        color: white;
+      }
+
+      &.delete {
+        background: $danger;
+        color: white;
+      }
+
+      &:hover {
+        opacity: 0.85;
+      }
+    }
+  }
+}
