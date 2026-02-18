@@ -1,5 +1,5 @@
 import Product from '../models/Product.js';
-
+import Category from '../models/Category.js'
 /** Admin Can Create Products {Mean Admin permison need for product include} */
 export const createproduct = async (req, res)=>{
 try{
@@ -79,4 +79,28 @@ export const getProductById = async (req, res) => {
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
+    
   };
+   //Catogory History
+  export const getProductsByCategoryName = async (req, res) => {
+  try {
+    // Find category by name
+    const category = await Category.findOne({
+      name: req.params.categoryName
+    });
+
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    //Find products with that category ID
+    const products = await Product.find({
+      category: category._id
+    }).populate("category");
+
+    res.status(200).json(products);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

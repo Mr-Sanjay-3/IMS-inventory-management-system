@@ -1,15 +1,15 @@
-@import "./_variable.scss";
+@use  './variable';
 
 table {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
-  border-radius: $radius;
+  border-radius: variable.$radius;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
 
   thead {
-    background: $secondary;
+    background: variable.$secondary;
 
     th {
       color: #fff;
@@ -22,7 +22,7 @@ table {
 
   tbody {
     tr {
-      border-bottom: 1px solid $border;
+      border-bottom: 1px solid variable.$border;
       transition: 0.2s;
 
       &:hover {
@@ -33,12 +33,12 @@ table {
     td {
       padding: 14px;
       font-size: 14px;
-      color: $text;
+      color: variable.$text;
     }
 
     button {
       padding: 6px 14px;
-      border-radius: $radius;
+      border-radius: variable.$radius;
       border: none;
       font-size: 13px;
       cursor: pointer;
@@ -50,7 +50,7 @@ table {
       }
 
       &.delete {
-        background: $danger;
+        background: variable.$danger;
         color: white;
       }
 
@@ -59,4 +59,7 @@ table {
       }
     }
   }
+}
+.admin-content {
+  overflow-x: auto;   // table scroll inside content
 }

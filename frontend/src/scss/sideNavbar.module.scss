@@ -8,7 +8,7 @@
   --nav-width: 16rem;
 
   // background: var(--color_nav_bg);
-  height: 100vh;
+  height: 100dvh;
 
   padding: var(--padding-md) var(--padding-sm); //1rem 0.8rem
   transition: transform 300ms ease-in-out;
@@ -16,10 +16,7 @@
   //MOBILE
 
   @media screen and (max-width: 1024px) {
-      transform: translateX((-100%));
-      position: absolute;
-      top: 0;
-      left: 0;
+   display: none;
   }
 }
 

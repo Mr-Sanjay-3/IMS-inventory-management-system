@@ -8,7 +8,7 @@ import Stock from './routes/stockMovement.routes.js';
 import Category  from './routes/category.route.js';
 import Supplier from './routes/suppllier.routes.js';
 import StockAlert from './routes/alert.routes.js';
-import AdminRoute from './routes/status.routes.js'
+import AdminRoute from './routes/status.routes.js';
 
 dotenv.config()
 MongoDB();

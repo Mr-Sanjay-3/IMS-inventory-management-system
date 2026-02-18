@@ -1,7 +1,8 @@
 
 import '../scss/ProductTable.scss'
-const ProductTable = ({ products, onEdit, onDelete }) => {
+const ProductTable = ({ products, onEdit, onDelete, onCreate}) => {
     return (
+      <>
       <table border="1" width="100%">
         <thead>
           <tr>
@@ -19,13 +20,16 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
               <td>${p.price}</td>
               <td>{p.stock}</td>
               <td>
+                <button onClick={() => onCreate(p)}>Create</button>
                 <button onClick={() => onEdit(p)}>Edit</button>
                 <button onClick={() => onDelete(p._id)}>Delete</button>
               </td>
             </tr>
-          ))}
+        ))}
         </tbody>
-      </table>
+      </table>  </>
+      
+      
     );
   };
   

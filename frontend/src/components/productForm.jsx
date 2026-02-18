@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { createProduct, updateProduct, getCategories } from "../api/productApi";
-import '../scss/productForm.scss'
+import styles from "../scss/productForm.module.scss";
 
-const ProductForm = ({ editProduct, refresh, clearEdit }) => {
+const ProductForm = ({ editProduct, refresh, onSuccess }) => {
   const [categories, setCategories] = useState([]);
 
   const [form, setForm] = useState({
@@ -14,7 +14,7 @@ const ProductForm = ({ editProduct, refresh, clearEdit }) => {
     lowStockThreshold: ""
   });
 
-  // load categories
+  // 🔹 Load categories
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,7 +27,7 @@ const ProductForm = ({ editProduct, refresh, clearEdit }) => {
     fetchData();
   }, []);
 
-  // edit mode
+  // 🔹 Fill form in edit mode
   useEffect(() => {
     if (editProduct) {
       setForm({
@@ -41,16 +41,7 @@ const ProductForm = ({ editProduct, refresh, clearEdit }) => {
     }
   }, [editProduct]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (editProduct) {
-      await updateProduct(editProduct._id, form);
-      clearEdit();
-    } else {
-      await createProduct(form);
-    }
-
+  const resetForm = () => {
     setForm({
       name: "",
       sku: "",
@@ -59,76 +50,106 @@ const ProductForm = ({ editProduct, refresh, clearEdit }) => {
       quantity: "",
       lowStockThreshold: ""
     });
+  };
 
-    refresh();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (editProduct) {
+        await updateProduct(editProduct._id, form);
+        alert("Product updated successfully");
+
+        if (onSuccess) {
+          onSuccess(); // used in UpdateProduct page
+        }
+      } else {
+        await createProduct(form);
+        alert("Product created successfully");
+
+        if (refresh) {
+          refresh(); // used in ProductPage
+        }
+      }
+
+      resetForm();
+    } catch (error) {
+      console.error("Submit error:", error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        placeholder="Name"
-        value={form.name}
-        onChange={(e) =>
-          setForm({ ...form, name: e.target.value })
-        }
-      />
+    <div className={styles.productForm}>
+      <div className="container">
+        <form onSubmit={handleSubmit}>
 
-      <input
-        placeholder="SKU"
-        value={form.sku}
-        onChange={(e) =>
-          setForm({ ...form, sku: e.target.value })
-        }
-      />
+          <input
+            placeholder="Name"
+            value={form.name}
+            onChange={(e) =>
+              setForm({ ...form, name: e.target.value })
+            }
+          />
 
-      <select
-        value={form.category}
-        onChange={(e) =>
-          setForm({ ...form, category: e.target.value })
-        }
-      >
-        <option value="">Select Category</option>
-        {categories.map((c) => (
-          <option key={c._id} value={c._id}>
-            {c.name}
-          </option>
-        ))}
-      </select>
+          <input
+            placeholder="SKU"
+            value={form.sku}
+            onChange={(e) =>
+              setForm({ ...form, sku: e.target.value })
+            }
+          />
 
-      <input
-        placeholder="Price"
-        type="number"
-        value={form.price}
-        onChange={(e) =>
-          setForm({ ...form, price: e.target.value })
-        }
-      />
+          <select
+            value={form.category}
+            onChange={(e) =>
+              setForm({ ...form, category: e.target.value })
+            }
+          >
+            <option value="">Select Category</option>
+            {categories.map((c) => (
+              <option key={c._id} value={c._id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
 
-      <input
-        placeholder="Quantity"
-        type="number"
-        value={form.quantity}
-        onChange={(e) =>
-          setForm({ ...form, quantity: e.target.value })
-        }
-      />
+          <input
+            placeholder="Price"
+            type="number"
+            value={form.price}
+            onChange={(e) =>
+              setForm({ ...form, price: e.target.value })
+            }
+          />
 
-      <input
-        placeholder="Low Stock Alert"
-        type="number"
-        value={form.lowStockThreshold}
-        onChange={(e) =>
-          setForm({
-            ...form,
-            lowStockThreshold: e.target.value
-          })
-        }
-      />
+          <input
+            placeholder="Quantity"
+            type="number"
+            value={form.quantity}
+            onChange={(e) =>
+              setForm({ ...form, quantity: e.target.value })
+            }
+          />
 
-      <button type="submit">
-        {editProduct ? "Update" : "Create"}
-      </button>
-    </form>
+          <input
+            placeholder="Low Stock Alert"
+            type="number"
+            value={form.lowStockThreshold}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                lowStockThreshold: e.target.value
+              })
+            }
+          />
+
+          <button type="submit">
+            {editProduct ? "Update Product" : "Create Product"}
+          </button>
+
+        </form>
+      </div>
+    </div>
   );
 };
 

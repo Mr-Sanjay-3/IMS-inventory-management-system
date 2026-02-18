@@ -41,3 +41,11 @@ export const deleteProduct = (id, data) =>
 //getCategory
 export const getCategories = ()=>
     API.get('/category');
+//For History of CategoryPage API
+
+export const ShowCategorys = ()=>{
+    API.get('/category/:catogoryId')
+}
+export const ShowCategorysWithName = ()=>{
+    API.get(`/product/category/name/${encodeURIComponent(categoryName)}`)
+}

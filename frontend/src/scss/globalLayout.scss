@@ -1,0 +1,15 @@
+.global-layout {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  //.navbar_container {
+    //width: 30px;       
+    //flex-shrink: 0;     
+  //}
+  
+  .global-content {
+    flex: 2;           
+    padding: 16px;
+  }
+  

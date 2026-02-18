@@ -27,20 +27,14 @@ const AdminDashboard = () => {
 
   return (
     <>
-    <div className="admin-layout">
-
-    <SideNavbar />
-    <div className="admin-conttent">
+   
     <div>
       <h2 style={{color:'wheat'}}>Admin Dashboard</h2>
       <p>Total Products: {stats.totalProducts}</p>
       <p>Low Stock Alerts: {stats.lowStockAlerts}</p>
       <p>Total Users: {stats.totalUsers}</p>
     </div>
-      
-    </div>
-   
-    </div>
+
     
     </>
   

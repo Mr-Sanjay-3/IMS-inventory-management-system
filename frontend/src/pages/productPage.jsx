@@ -1,21 +1,19 @@
-import React ,{useState, useEffect} from 'react';
-import Navbar from '../Subcomponents/sideNavbar';
-
+import React, { useState, useEffect } from "react";
+import Navbar from "../Subcomponents/sideNavbar";
 import {
-  createProduct,
   getProduct,
-  updateProduct,
   deleteProduct
-} from '../api/productApi'
+} from "../api/productApi";
 
-import ProductForm from '../components/productForm';
-import ProductTable from '../components/productTable';
+import ProductForm from "../components/productForm";
+import ProductTable from "../components/productTable";
 import Loader from "../Subcomponents/LoadingAnimation";
- 
+
 const productPage = () => {
   const [products, setProducts] = useState([]);
   const [editProduct, setEditProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
 
   const fetchProducts = async () => {
     try {
@@ -33,32 +31,48 @@ const productPage = () => {
   }, []);
 
   if (loading) return <Loader />;
+
   return (
-   <>
+    <>
+    
+        <h2 className="Headig" style={{justifyContent:"center", textAlign:"center", backgroundColor:"royalblue"}}>Products</h2>
 
-    <div>
-   {/* <Navbar /> */}
+        {/*Show Form When Needed */}
+        {showForm && (
+          <ProductForm
+            editProduct={editProduct}
+            refresh={fetchProducts}
+            onSuccess={() => {
+              setShowForm(false);
+              setEditProduct(null);
+              fetchProducts();
+            }}
+          />
+        )}
 
-      <h2>Products</h2>
+        <ProductTable
+          products={products}
 
-      <ProductForm
-        editProduct={editProduct}
-        refresh={fetchProducts}
-        clearEdit={() => setEditProduct(null)}
-      />
+          //Edit
+          onEdit={(product) => {
+            setEditProduct(product);
+            setShowForm(true);
+          }}
 
-      <ProductTable
-        products={products}
-        onEdit={setEditProduct}
-        onDelete={async (id) => {
-          await deleteProduct(id);
-          fetchProducts();
-        }}
-      />
-    </div>
-   
-   </>
-  )
-}
+          //Create Button
+          onCreate={() => {
+            setEditProduct(null);
+            setShowForm(true);
+          }}
+
+          //Delete
+          onDelete={async (id) => {
+            await deleteProduct(id);
+            fetchProducts();
+          }}
+        />
+     </>
+  );
+};
 
 export default productPage;

@@ -4,7 +4,8 @@ import {
     getProducts,
     getProductById,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsByCategoryName
  } from "../Controllers/product.controller.js"
 
  //  Verify {token is have } then Permite CRUD Operation :)
@@ -16,10 +17,10 @@ import {
  router.post('/', verifyToken, isAdmin, createproduct);
  router.put('/:id', verifyToken, isAdmin, updateProduct);
  router.delete('/:id', verifyToken, isAdmin, deleteProduct);
-
  //Admin & Staffs see Product Stocks
-
  router.get('/', verifyToken, getProducts);
  router.get('/:id', verifyToken, getProductById);
+  /**Category History Route */
+router.get("/category/name/:categoryName", verifyToken, getProductsByCategoryName)
 
  export default router

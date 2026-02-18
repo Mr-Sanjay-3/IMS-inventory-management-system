@@ -3,7 +3,7 @@ import {
   createCategory,
   getCategories,
   updateCategory,
-  deleteCategory
+  deleteCategory,
 } from "../Controllers/category.controller.js"
 
 import { verifyToken, isAdmin } from "../middlewares/auth.middleware.js";
@@ -17,5 +17,6 @@ router.post("/",verifyToken, isAdmin, createCategory);
 router.put( "/:id",verifyToken, isAdmin, updateCategory);
 /**Admin only Soft delete category*/
 router.delete("/:id", verifyToken,isAdmin, deleteCategory);
+
 
 export default router;

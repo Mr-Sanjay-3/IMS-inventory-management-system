@@ -26,15 +26,12 @@ import { useState } from "react";
 const Navbar = () => {
   const [nav, setnav] = useState(false);
 
-  const NavUrl = ({ url, icon, description }) => {
-    const checkWindowSize = () => {
-      if (window.innerWidth < 1024) setnav(!nav);
-    };
+  const NavUrl = ({ url, icon, description ,end}) => {
     return (
       <li className={styles.li_navlink}>
         <NavLink
-          to={`${url}`}
-          onClick={() => checkWindowSize()}
+          to={url}
+          end={end}
           className={({ isActive }) => (isActive ? styles.active : undefined)}
         >
           {icon}
@@ -45,21 +42,8 @@ const Navbar = () => {
   };
 
   return (
-    <div
-      className={`${styles.navbar_container} ${
-        nav ? styles.navbar_mobile_active : undefined
-      }`}
-    >
-      {/* TEST     */}
-      <div className={styles.test}>
-        <button
-          onClick={() => {
-            setnav(!nav);
-          }}
-        >
-          PRESS ME
-        </button>
-      </div>
+  <div className={styles.navbar_container}>
+
 
       <nav className={nav ? undefined : styles.nav_small}>
         {/* LOGO */}
@@ -67,7 +51,6 @@ const Navbar = () => {
           <VscDashboard className={styles.logo_icon} />
           <FaTimes
             className={styles.mobile_cancel_icon}
-            onClick={() => setnav(!nav)}
           />
         </div>
 
@@ -82,37 +65,17 @@ const Navbar = () => {
             url="/admin"
             icon={<MdOutlineDashboard />}
             description="Dashboard"
+           end
           />
-{/* 
-       <NavUrl 
-            {/* url="/"
-            icon={<MdOutlineAnalytics />}
-            description="Analytics"
-          />
-
-          <NavUrl 
-           
-          //   url="/campaings"
-          //   icon={<MdOutlineFlag />}
-          //   description="Campaings"
-          // /> 
-
-        <NavUrl
-          //   url="/messages"
-          //   icon={<MdOutlineMessage />}
-          //   description="Messages"
-          // />
-
-          
-           SECOND CATEGORY */}
+{/*  SECOND CATEGORY */}
           <span
             className={`${styles.categories} 
           ${styles.second_category}`}
           >
             {nav ? "Product Management" : <BsThreeDots />}
           </span>
-          <NavUrl url='/api/product' icon={<BsDatabaseFillAdd />} description="Add Product" />
-    <NavUrl url='/d' icon={ <MdBrowserUpdated />} description="Update Product" />
+          <NavUrl url='/admin/product' icon={<BsDatabaseFillAdd />} description="Product Manage" />
+    <NavUrl url='/admin/category' icon={ <MdBrowserUpdated />} description="Product History" />
         <NavUrl url= '/u' icon={<MdDeleteSweep />} description="Delete Product" />
           {/* <NavUrl url="/other1" icon={<IoMdLogIn />} description="Add Product" /> */}
 
