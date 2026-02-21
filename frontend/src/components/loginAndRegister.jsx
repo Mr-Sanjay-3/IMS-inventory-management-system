@@ -40,7 +40,6 @@ function App() {
 
   try {
     const res = await loginUser(loginData);
-
     //Token Save On Local Storage
     localStorage.setItem("token", res.data.token);
     localStorage.setItem("user", JSON.stringify(res.data.user));

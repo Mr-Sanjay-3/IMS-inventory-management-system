@@ -1,0 +1,77 @@
+.container {
+  padding: 30px;
+  animation: fadeIn 0.5s ease;
+}
+
+.heading {
+  font-size: 26px;
+  margin-bottom: 20px;
+  text-align: center;
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.filter {
+  padding: 8px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #f4f6f9;
+  padding: 12px;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+  background: #f9f9ff;
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: white;
+}
+
+.manager {
+  background: royalblue;
+}
+
+.cashier {
+  background: green;
+}
+
+.sales {
+  background: orange;
+}
+
+.delete_btn {
+  background: crimson;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete_btn:hover {
+  background: darkred;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

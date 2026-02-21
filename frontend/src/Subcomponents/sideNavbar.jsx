@@ -87,8 +87,8 @@ const Navbar = () => {
           >
             {nav ? "Staff Management" : <BsThreeDots />}
           </span>
-          <NavUrl url='/m' icon={<IoIosPersonAdd  />} description="Add Staff" />
-    <NavUrl url='/d' icon={ <MdDisabledVisible />} description="Disable Staff" />
+          <NavUrl url='/admin/addstaff' icon={<IoIosPersonAdd  />} description="Add Staff" />
+    <NavUrl url='/admin/liststaff' icon={ <MdDisabledVisible />} description="Disable Staff" />
         <NavUrl url= '/u' icon={<TiUserDelete  />} description="Delete Staff" />
           {/* <NavUrl url="/other1" icon={<IoMdLogIn />} description="Add Product" /> */}
 

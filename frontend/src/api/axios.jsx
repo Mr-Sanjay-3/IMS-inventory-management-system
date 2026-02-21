@@ -8,16 +8,22 @@ const API = axios.create({
 }
 });
 API.interceptors.request.use((config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token" );
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    return config;
+    return config;  
   });
-
+  
+  //Login API
 export const loginUser = (data)=> API.post('/auth/login', data);
+
+//Register API
 export const registerUser = (data)=> API.post('/auth/register', data);
-export const getAdminStatus = (data) => API.get('/admin/status', data);
+//////////////////////////////////////////////////////////////////////
+
+export const getAdminStatus = () => API.get('/admin/status');
+export const staffList = () => API.get('/employee')
 
 
 export default API;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../Subcomponents/sideNavbar";
+import styles from '../scss/productPage.module.scss';
 import {
   getProduct,
   deleteProduct
@@ -34,45 +34,49 @@ const productPage = () => {
 
   return (
     <>
+   <div className={styles.container}>
+      <h2 className={styles.heading}>Products Management</h2>
+
+ {showForm && (
+      <div className={styles.inline_form}>
+        <ProductForm
+          editProduct={editProduct}
+          refresh={fetchProducts}
+          onSuccess={() => {
+            setShowForm(false);
+            setEditProduct(null);
+            fetchProducts();
+          }}
+          onCancel={() => {
+            setShowForm(false);
+            setEditProduct(null);
+          }}
+        />
+      </div>
+    )}
     
-        <h2 className="Headig" style={{justifyContent:"center", textAlign:"center", backgroundColor:"royalblue"}}>Products</h2>
-
-        {/*Show Form When Needed */}
-        {showForm && (
-          <ProductForm
-            editProduct={editProduct}
-            refresh={fetchProducts}
-            onSuccess={() => {
-              setShowForm(false);
-              setEditProduct(null);
-              fetchProducts();
-            }}
-          />
-        )}
-
+      <div className={styles.content_card}>
         <ProductTable
           products={products}
-
-          //Edit
           onEdit={(product) => {
             setEditProduct(product);
             setShowForm(true);
           }}
-
-          //Create Button
           onCreate={() => {
             setEditProduct(null);
             setShowForm(true);
           }}
-
-          //Delete
           onDelete={async (id) => {
             await deleteProduct(id);
             fetchProducts();
           }}
         />
-     </>
-  );
+      </div>
+    </div>
+  </>
+     
+  
+);
 };
 
 export default productPage;

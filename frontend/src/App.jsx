@@ -6,7 +6,9 @@ import Dashboard from './pages/adminDashBoard.jsx';
 import NotFound from './Subcomponents/notFoundPage.jsx';
 import ProductPage from './pages/productPage.jsx';
 import ProductHistory from './pages/productHistory.jsx';
-import GlobalLayout from './layouts/GlobalLayout.jsx'
+import GlobalLayout from './layouts/GlobalLayout.jsx';
+import AddStaffpage from './pages/AddStaffPage.jsx';
+import ListStaff from './pages/staffHistory.jsx';
 
 
 const App = () => {
@@ -31,6 +33,8 @@ element={
 <Route index element={<Dashboard />} />
 <Route path='product' element={<ProductPage />}  />
 <Route path='category' element={<ProductHistory />} />
+<Route path='addstaff' element={<AddStaffpage />} />
+<Route  path='liststaff' element ={<ListStaff />} />
 </Route>
 <Route path ="*" element={<NotFound />} />
 

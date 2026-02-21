@@ -1,51 +1,29 @@
-import API from './axios'
+import API from "./axios";
 
-//CREATE
-export const createProduct = (data)=> 
-API.post('/product', data,
-    {
-        headers: {
-            Authorization : `Bearer ${localStorage.getItem('token')}`
-        },
-    });
+// CREATE
+export const createProduct = (data) =>
+  API.post("/product", data);
 
-//Read Product
-export const getProduct =  () =>
-    API.get('/category',{ 
-        headers :{
-     Authorization: `Bearer ${localStorage.getItem("token")}`
- 
-        },
+// READ ALL PRODUCTS
+export const getProduct = () =>
+  API.get("/product");
 
- });
-//Update Product
- 
-export const updateProduct = (id, data)=> 
-    API.put(`/product/${id}`, data, {
-    headers : {
-Authorization : `Bearer ${localStorage.getItem("token")}`
-    },
-});
+// UPDATE
+export const updateProduct = (id, data) =>
+  API.put(`/product/${id}`, data);
 
-//Delete Product
+// DELETE
+export const deleteProduct = (id) =>
+  API.delete(`/product/${id}`);
 
-export const deleteProduct = (id, data) =>
-    API.delete( `/product/${id}`, data,
-        {
-            headers :{
-                Authorization : `Bearer ${localStorage.getItem("token")}`
-                
-            },
-        });
+// GET ALL CATEGORIES
+export const getCategories = () =>
+  API.get("/category");
 
-//getCategory
-export const getCategories = ()=>
-    API.get('/category');
-//For History of CategoryPage API
+// GET CATEGORY BY ID
+export const showCategoryById = (categoryId) =>
+  API.get(`/category/${categoryId}`);
 
-export const ShowCategorys = ()=>{
-    API.get('/category/:catogoryId')
-}
-export const ShowCategorysWithName = ()=>{
-    API.get(`/product/category/name/${encodeURIComponent(categoryName)}`)
-}
+// GET PRODUCTS BY CATEGORY NAME
+export const showProductsByCategoryName = (categoryName) =>
+  API.get(`/product/name/${encodeURIComponent(categoryName)}`);

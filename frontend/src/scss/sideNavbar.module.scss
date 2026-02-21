@@ -1,8 +1,9 @@
 .navbar_container {
   --color_nav_bg: rgb(30, 41, 59);
-  --color_nav_txt: rgb(100, 116, 139);
-  --color_nav_ctg: rgb(226, 232, 240);
-  --color_nav_active: rgb(85, 79, 232);
+  --color_nav_txt: rgb(221, 221, 221);
+  --color_nav_ctg: rgb(226, 226, 226);
+  background: #000;
+  --color_nav_active: rgb(241, 241, 241);
   --color_nav_not_active: rgb(61, 74, 94);
   --color_nav_active_bg: rgb(15, 23, 42);         
   --nav-width: 16rem;

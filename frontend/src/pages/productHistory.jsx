@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import styles from '../scss/productHistory.module.scss'
+import API from "../api/axios";
 
-const CategoryPanel = () => {
+const  ProductHistoryPanel = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [products, setProducts] = useState([]);
@@ -10,8 +11,8 @@ const CategoryPanel = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:8000/api/categories"
+        const res = await API.get(
+          "/category"
         );
         setCategories(res.data);
       } catch (error) {
@@ -24,30 +25,35 @@ const CategoryPanel = () => {
 
   // Handle category change
   const handleCategoryChange = async (e) => {
-    const categoryName = e.target.value;
-    setSelectedCategory(categoryName);
+  const categoryId = e.target.value;
+  setSelectedCategory(categoryId);
 
-    if (categoryName !== "") {
-      try {
-        const res = await axios.get(
-          `http://localhost:8000/api/products/category/name/${encodeURIComponent(categoryName)}`
-        );
-        setProducts(res.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-        setProducts([]);
-      }
-    } else {
-      setProducts([]);
-    }
-  };
+  if (!categoryId) {
+    setProducts([]);
+    return;
+  }
+
+  try {
+    const res = await API.get(
+      `/product/category/name/${categoryId}`
+    );
+
+    setProducts(res.data);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    setProducts([]);
+  }
+};
 
   return (
-    <div className="category-panel">
-      <h2>Category Wise Products</h2>
+    <div className={styles.container}>
+      <h2 className={styles.heading}>Category Wise Products</h2>
 
-      {/* Dropdown */}
-      <select value={selectedCategory} onChange={handleCategoryChange}>
+      <select
+        className={styles.select_box}
+        value={selectedCategory}
+        onChange={handleCategoryChange}
+      >
         <option value="">Select Category</option>
         {categories.map((cat) => (
           <option key={cat._id} value={cat.name}>
@@ -56,33 +62,39 @@ const CategoryPanel = () => {
         ))}
       </select>
 
-      {/* Products Table */}
       {products.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Stock</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((prod) => (
-              <tr key={prod._id}>
-                <td>{prod.name}</td>
-                <td>₹ {prod.price}</td>
-                <td>{prod.stock}</td>
+        <div className={styles.table_wrapper}>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Stock</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {products.map((prod, index) => (
+                <tr
+                  key={prod._id}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <td>{prod.name}</td>
+                  <td>₹ {prod.price}</td>
+                  <td>{prod.stock}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       {selectedCategory && products.length === 0 && (
-        <p>No products found for this category.</p>
+        <p className={styles.no_data}>
+          No products found for this category.
+        </p>
       )}
     </div>
   );
 };
 
-export default CategoryPanel;
+export default ProductHistoryPanel;
