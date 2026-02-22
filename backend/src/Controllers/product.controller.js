@@ -62,20 +62,15 @@ export const getProductById = async (req, res) => {
     }
   };
   
-  /*** Admin: Soft delete (inactive)*/
+  /*** Admin:  delete */
   export const deleteProduct = async (req, res) => {
     try {
-      const product = await Product.findByIdAndUpdate(
-        req.params.id,
-        { status: "inactive" },
-        { new: true }
-      );
+      const product = await Product.findByIdAndDelete(req.params.id );
   
       if (!product) {
         return res.status(404).json({ msg: "Product not found" });
       }
-  
-      res.json({ msg: "Product deactivated" });
+      res.status(200).json({ msg: "Product deleted" });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }

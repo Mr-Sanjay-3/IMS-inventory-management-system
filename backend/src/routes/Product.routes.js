@@ -4,7 +4,7 @@ import {
     getProducts,
     getProductById,
     updateProduct,
-    deleteProduct,
+    deleteProduct ,
     getProductsByCategoryName
  } from "../Controllers/product.controller.js"
 

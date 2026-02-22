@@ -3,6 +3,12 @@ import Staff from '../models/StaffSchema.js';
 export const getStaff = async (req, res) => {
   try {
     const staff = await Staff.find();
+//Staff Check is Staff Filter Some Credentials
+    if (req.user.role === "staff") {
+      staff = staff.filter(
+        (s) => s.role !== "admin" && s.staffs !== "manager"
+      );
+    }
     res.status(200).json(staff);
   } catch (error) {
     res.status(500).json({ message: error.message });

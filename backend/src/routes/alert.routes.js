@@ -1,9 +1,12 @@
-import express from 'express';
-import { getLowStockAlerts } from "../Controllers/lowStock.controller.js";
-import {verifyToken , isAdmin} from '../middlewares/auth.middleware.js';
+import express from "express";
+import { getLowStockAlerts, resolveLowStockAlert } from "../controllers/alert.controller.js";
 
 const router = express.Router();
 
-router.get('/', verifyToken, isAdmin, getLowStockAlerts);
+// Fetch unresolved low-stock alerts
+router.get("/alerts", getLowStockAlerts);
 
-export default router
+// Resolve low-stock alert
+router.put("/alerts/:alertId/resolve", resolveLowStockAlert);
+
+export default router;
