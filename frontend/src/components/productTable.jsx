@@ -27,7 +27,8 @@ const ProductTable = ({ products, onEdit, onDelete, onCreate}) => {
             </tr>
         ))}
         </tbody>
-      </table>  </>
+      </table> 
+       </>
       
       
     );

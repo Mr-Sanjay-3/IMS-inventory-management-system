@@ -9,6 +9,7 @@ import Category  from './routes/category.route.js';
 import Supplier from './routes/suppllier.routes.js';
 import StockAlert from './routes/alert.routes.js';
 import AdminRoute from './routes/status.routes.js';
+import Employees from './routes/employee.route.js'
 
 dotenv.config()
 MongoDB();
@@ -25,13 +26,14 @@ app.use(
 
 app.use(express.json());
 
-app.use('/api/admin', AdminRoute);
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', AdminRoute);
 app.use('/api/product', Product);
 app.use('/api/stock', Stock );
 app.use('/api/category', Category );
 app.use('/api/supplier', Supplier);
 app.use('/api/alert', StockAlert);
+app.use('/api/employee', Employees);
 app.use((req, res,next)=>{
     success:false,
     res.status(404).json({msg:"Not found",

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import API from '../api/axios'
 import styles from "../scss/addStaff.module.scss";
-
+import Loader from "../Subcomponents/LoadingAnimation";
 const AddStaffPage = () => {
+  const [Loading ,setLoading] = useState(false);
   const [staff, setStaff] = useState({
     name: "",
     email: "",
@@ -14,22 +16,32 @@ const AddStaffPage = () => {
     setStaff({ ...staff, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Staff Data:", staff);
 
-    // 👉 later connect to backend API here
+    try {
 
-    alert("Staff Added Successfully ✅");
+      setLoading(true);
+      const res = await API.post("/employee", staff);
 
-    setStaff({
-      name: "",
-      email: "",
-      phone: "",
-      role: "",
-      salary: ""
-    });
+      alert("Staff Added Successfully ");
+
+      setStaff({
+        name: "",
+        email: "",
+        phone: "",
+        role: "",
+        salary: ""
+      });
+
+    } catch (error) {
+      console.error("Add Staff Error:", error);
+      alert(error.response?.data?.message || "Something went wrong ");
+    } finally {
+      setLoading(false);
+    }
   };
+  if(Loading) return <Loader /> ;
 
   return (
     <div className={styles.container}>

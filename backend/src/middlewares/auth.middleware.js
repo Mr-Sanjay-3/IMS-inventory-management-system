@@ -1,15 +1,19 @@
+import dotenv from "dotenv";
+dotenv.config();
 
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 
-dotenv.config();
+
 
 export const verifyToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
+         //console.log("Authorization Header:", req.headers.authorization);
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+
+    if (!authHeader || !authHeader.startsWith("Bearer")) {
         return res.status(401).json({ msg: "No token provided" });
-    }
+      
+    } 
 
     try {
         const token = authHeader.split(" ")[1]; 
@@ -23,7 +27,6 @@ export const verifyToken = (req, res, next) => {
         return res.status(401).json({ msg: "Invalid token" });
     }
 };
-
 
 export const isAdmin = (req, res, next) => {
     if (!req.user || req.user.role !== "admin") {

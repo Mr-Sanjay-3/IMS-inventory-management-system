@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import {  data, useNavigate } from 'react-router-dom';
 import '../SCSS/login.scss';
 
 //Axios Config Importing

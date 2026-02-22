@@ -32,7 +32,6 @@ const  ProductHistoryPanel = () => {
     setProducts([]);
     return;
   }
-
   try {
     const res = await API.get(
       `/product/category/name/${categoryId}`
@@ -80,7 +79,7 @@ const  ProductHistoryPanel = () => {
                 >
                   <td>{prod.name}</td>
                   <td>₹ {prod.price}</td>
-                  <td>{prod.stock}</td>
+                  <td>{prod.quantity}</td>
                 </tr>
               ))}
             </tbody>
