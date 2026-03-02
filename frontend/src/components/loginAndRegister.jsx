@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import {  data, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../SCSS/login.scss';
-
-//Axios Config Importing
-import {loginUser, registerUser }from '../api/axios'
+import { loginUser, registerUser } from '../api/axios';
 
 function App() {
   const navigate = useNavigate();
@@ -15,6 +13,7 @@ function App() {
     password: '',
   });
   const [loginErrors, setLoginErrors] = useState({});
+  const [loginErrorMessage, setLoginErrorMessage] = useState('');
 
   // REGISTER STATE
   const [registerData, setRegisterData] = useState({
@@ -22,86 +21,88 @@ function App() {
     email: '',
     password: '',
     role: '',
+    adminPassword: '', // Admin password field
   });
   const [registerErrors, setRegisterErrors] = useState({});
+  const [registerErrorMessage, setRegisterErrorMessage] = useState('');
 
   // LOGIN SUBMIT
   const handleLogin = async (e) => {
     e.preventDefault();
 
     const errors = {};
-    if (!loginData.email) errors.email = true;
-    if (!loginData.password) errors.password = true;
+    if (!loginData.email) errors.email = 'Email is required';
+    if (!loginData.password) errors.password = 'Password is required';
 
     setLoginErrors(errors);
 
     if (Object.keys(errors).length !== 0) return;
 
+    try {
+      const res = await loginUser(loginData);
+      // Token Save On Local Storage
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
 
-  try {
-    const res = await loginUser(loginData);
-    //Token Save On Local Storage
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("user", JSON.stringify(res.data.user));
-    console.log("Login Success", res.data);
-     
-    //affter login Fix as Admin or Staff
-
-   if (res.data.user.role === "admin") {
-    navigate("/admin")
-    
-   }else{
-    navigate("/staff")
-   }
-    
-  } catch (error) {
-    console.log(error);
-    alert(error.respose?.data?.msg || "Login Faild")
-    
-  }  
-  
-   
-
-};
+      if (res.data.user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/staff");
+      }
+    } catch (error) {
+      setLoginErrorMessage(error.response?.data?.msg || 'Login Failed');
+    }
+  };
 
   // REGISTER SUBMIT
-  const handleRegister = async(e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     const errors = {};
-    if (!registerData.name) errors.name = true;
-    if (!registerData.email) errors.email = true;
-    if (!registerData.password) errors.password = true;
-    if (!registerData.role) errors.role = true;
+    if (!registerData.name) errors.name = 'Name is required';
+    if (!registerData.email) errors.email = 'Email is required';
+    if (!registerData.password) errors.password = 'Password is required';
+    if (!registerData.role) errors.role = 'Role is required';
+
+    // Admin password validation if role is admin or staff
+    if ((registerData.role === 'admin' || registerData.role === 'staff') && !registerData.adminPassword) {
+      errors.adminPassword = 'Admin password is required';
+    }
 
     setRegisterErrors(errors);
 
     if (Object.keys(errors).length !== 0) return;
 
+    // Step 1: Validate Admin Password with API call
     try {
-      const res = await registerUser(registerData);
-      console.log("Register Done", res.data);
+      const response = await API.post('/api/check/verify-admin-password', {
+        adminPassword: registerData.adminPassword, // Send the admin password
+      });
 
-      //Move Back Login
-      setIsRegister(false)
-      
+      if (response.status === 200) {
+        // Step 2: Proceed with registration if admin password is valid
+        const res = await registerUser(registerData);
+        console.log("Registration Successful", res.data);
+        setIsRegister(false);  // Switch back to login view
+      } else {
+        setRegisterErrorMessage('Admin password verification failed');
+      }
     } catch (error) {
-      console.log(error.response?.dtata?.msg || "Register fialid");
-      
+      setRegisterErrorMessage(error.response?.data?.msg || 'Incorrect admin password');
     }
   };
 
   return (
     <div className="Login">
       <div className="login-container">
-
         <div className="login-left flip-wrapper">
           <div className={`flip-inner ${isRegister ? 'flipped' : ''}`}>
-
             {/* LOGIN */}
             <div className="flip-front">
               <h2>Login</h2>
               <p>See your growth and get support</p>
+
+              {loginErrorMessage && <div className="error-message">{loginErrorMessage}</div>}
 
               <form className="login-form" onSubmit={handleLogin}>
                 <div className="input-group">
@@ -115,6 +116,7 @@ function App() {
                       setLoginErrors({ ...loginErrors, email: false });
                     }}
                   />
+                  {loginErrors.email && <span className="error">{loginErrors.email}</span>}
                 </div>
 
                 <div className="input-group">
@@ -128,14 +130,11 @@ function App() {
                       setLoginErrors({ ...loginErrors, password: false });
                     }}
                   />
+                  {loginErrors.password && <span className="error">{loginErrors.password}</span>}
                 </div>
 
                 <button type="submit">Login</button>
-                <button
-                  type="button"
-                  id="login"
-                  onClick={() => setIsRegister(true)}
-                >
+                <button type="button" id="login" onClick={() => setIsRegister(true)}>
                   Register
                 </button>
               </form>
@@ -144,6 +143,8 @@ function App() {
             {/* REGISTER */}
             <div className="flip-back">
               <h2>Register</h2>
+
+              {registerErrorMessage && <div className="error-message">{registerErrorMessage}</div>}
 
               <form className="login-form" onSubmit={handleRegister}>
                 <div className="input-group">
@@ -157,6 +158,7 @@ function App() {
                       setRegisterErrors({ ...registerErrors, name: false });
                     }}
                   />
+                  {registerErrors.name && <span className="error">{registerErrors.name}</span>}
                 </div>
 
                 <div className="input-group">
@@ -170,6 +172,7 @@ function App() {
                       setRegisterErrors({ ...registerErrors, email: false });
                     }}
                   />
+                  {registerErrors.email && <span className="error">{registerErrors.email}</span>}
                 </div>
 
                 <div className="input-group">
@@ -183,6 +186,7 @@ function App() {
                       setRegisterErrors({ ...registerErrors, password: false });
                     }}
                   />
+                  {registerErrors.password && <span className="error">{registerErrors.password}</span>}
                 </div>
 
                 <div className="input-group">
@@ -195,30 +199,43 @@ function App() {
                       setRegisterErrors({ ...registerErrors, role: false });
                     }}
                   >
-                    <option value="" id='select'>Select role</option>
+                    <option value="">Select role</option>
                     <option value="admin">Admin</option>
                     <option value="staff">Staff</option>
                   </select>
+                  {registerErrors.role && <span className="error">{registerErrors.role}</span>}
                 </div>
 
+                {(registerData.role === 'admin' || registerData.role === 'staff') && (
+                  <div className="input-group">
+                    <label>Admin Password</label>
+                    <input
+                      type="password"
+                      value={registerData.adminPassword}
+                      className={registerErrors.adminPassword ? 'error' : ''}
+                      onChange={(e) => {
+                        setRegisterData({ ...registerData, adminPassword: e.target.value });
+                        setRegisterErrors({ ...registerErrors, adminPassword: false });
+                      }}
+                    />
+                    {registerErrors.adminPassword && (
+                      <span className="error">{registerErrors.adminPassword}</span>
+                    )}
+                  </div>
+                )}
+
                 <button type="submit">Register</button>
-                <button
-                  type="button"
-                  id="login"
-                  onClick={() => setIsRegister(false)}
-                >
+                <button type="button" id="login" onClick={() => setIsRegister(false)}>
                   Login
                 </button>
               </form>
             </div>
-
           </div>
         </div>
 
         <div className="login-right">
           <div className="quiet-space"></div>
         </div>
-
       </div>
     </div>
   );

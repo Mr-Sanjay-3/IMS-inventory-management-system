@@ -41,6 +41,7 @@ const AddStaffPage = () => {
       setLoading(false);
     }
   };
+  
   if(Loading) return <Loader /> ;
 
   return (

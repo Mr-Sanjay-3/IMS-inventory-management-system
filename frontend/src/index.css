@@ -6,3 +6,7 @@
     line-height: 1.5;
     user-select: none;
   }
+  html ,body{
+      background: linear-gradient(to right, #07070c, #000000);  box-sizing: border-box;
+
+  }

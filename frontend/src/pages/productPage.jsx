@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import styles from '../scss/productPage.module.scss';
 import {
   getProduct,
-  deleteProduct
+  deleteProduct,
 } from "../api/productApi";
 
 import ProductForm from "../components/productForm";
 import ProductTable from "../components/productTable";
 import Loader from "../Subcomponents/LoadingAnimation";
+import Footer from "../Subcomponents/Footer";
 
 const productPage = () => {
   const [products, setProducts] = useState([]);
@@ -25,6 +26,13 @@ const productPage = () => {
       setLoading(false);
     }
   };
+  //
+   const  handleCreateClick  = ()=>{
+    setShowForm(true)
+   }
+   const handleCloseForm = ()=> {
+    setShowForm(false)
+   }
 
   useEffect(() => {
     fetchProducts();
@@ -39,6 +47,7 @@ const productPage = () => {
 
  {showForm && (
       <div className={styles.inline_form}>
+
         <ProductForm
           editProduct={editProduct}
           refresh={fetchProducts}
@@ -56,6 +65,12 @@ const productPage = () => {
     )}
     
       <div className={styles.content_card}>
+         <button 
+  onClick={handleCreateClick}
+  className={styles.defaultcreateproduct}
+  >
+        +
+      </button>
         <ProductTable
           products={products}
           onEdit={(product) => {
@@ -66,12 +81,19 @@ const productPage = () => {
             setEditProduct(null);
             setShowForm(true);
           }}
+         
           onDelete={async (id) => {
-            await deleteProduct(id);
-            fetchProducts();
-          }}
-        />
-      </div>
+  try {
+    const res = await deleteProduct(id);
+    console.log("Delete Response:", res.data);
+    setProducts((prev) => prev.filter((p) => p._id !== id)); // update state immediately
+  } catch (err) {
+    console.error("Delete Error:", err.response || err);
+    alert(err.response?.data?.message || "Delete failed");
+  }
+}}
+        />     
+    </div>
     </div>
   </>
      

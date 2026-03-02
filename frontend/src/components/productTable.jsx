@@ -8,7 +8,7 @@ const ProductTable = ({ products, onEdit, onDelete, onCreate}) => {
           <tr>
             <th>Name</th>
             <th>Price</th>
-            <th>Stock</th>
+            <th>Quantity</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -17,8 +17,8 @@ const ProductTable = ({ products, onEdit, onDelete, onCreate}) => {
           {products.map((p) => (
             <tr key={p._id}>
               <td>{p.name}</td>
-              <td>${p.price}</td>
-              <td>{p.stock}</td>
+              <td>₹ {p.price}</td>
+              <td>{p.quantity}</td>
               <td>
                 <button onClick={() => onCreate(p)}>Create</button>
                 <button onClick={() => onEdit(p)}>Edit</button>

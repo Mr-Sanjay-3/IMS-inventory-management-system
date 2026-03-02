@@ -14,9 +14,8 @@ import { VscDashboard } from "react-icons/vsc";
 import { GiBilledCap } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { HiBellAlert } from "react-icons/hi2";
 
-const Navbar = () => {
+const StaffNavbar = () => {
   const [nav, setnav] = useState(false);
 
   const NavUrl = ({ url, icon, description ,end}) => {
@@ -55,15 +54,10 @@ const Navbar = () => {
           </span>
 
           <NavUrl
-            url="/admin"
+            url="/staff"
             icon={<MdOutlineDashboard />}
             description="Dashboard"
            end
-          />
-          <NavUrl 
-          url='alert'
-          icon={<HiBellAlert />}
-          description="Alert"
           />
 {/*  SECOND CATEGORY */}
           <span
@@ -72,16 +66,14 @@ const Navbar = () => {
           >
             {nav ? "Product Management" : <BsThreeDots />}
           </span>
-          <NavUrl url='/admin/product' icon={<BsDatabaseFillAdd />} description="Product Manage" />
-         <NavUrl url='/admin/category' icon={ <MdBrowserUpdated />} description="Product History" />
+         <NavUrl url='/staff/productlist' icon={ <MdBrowserUpdated />} description="Product History" />
            <span
             className={`${styles.categories} 
           ${styles.third_category}`}
           >
             {nav ? "Staff Management" : <BsThreeDots />}
           </span>
-          <NavUrl url='/admin/addstaff' icon={<IoIosPersonAdd  />} description="Add Staff" />
-           <NavUrl url='/admin/listEmployees' icon={ <BsFillPersonVcardFill />} description="Staff Data" />
+           <NavUrl url='/staff/stafflist' icon={ <BsFillPersonVcardFill />} description="Staff Data" />
         </ul>
 
         <ul>
@@ -91,7 +83,7 @@ const Navbar = () => {
           >
             {nav ? "About Developers" : <BsThreeDots />}
           </span>
-          <NavUrl url='/admin/aboutDevelopers' icon={<GiBilledCap  />} description="SRSS" />
+          <NavUrl url='/staff/aboutDevelopers' icon={<GiBilledCap  />} description="SRSS" />
         </ul>
         {/* LOGOUT BUTTON */}
         <div
@@ -108,4 +100,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default StaffNavbar;

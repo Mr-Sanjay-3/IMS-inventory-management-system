@@ -17,12 +17,15 @@
     // background: #dcdde1;
     background: #EDF0F2;
   }
-  
+  .error-message {
+  color: red;
+  font-size: 14px
+  }
   .login-container {
     display: flex;
     width: 80%;
     max-width: 1100px;
-    height: 90%;
+    height: 100%;
     border-radius: 10px;
     overflow: hidden;
     background: #fff;

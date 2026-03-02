@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
 import styles from '../scss/productHistory.module.scss'
 import API from "../api/axios";
+import Loader from "../Subcomponents/LoadingAnimation";
 
 const  ProductHistoryPanel = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [products, setProducts] = useState([]);
+  const [Loading ,setLoading] = useState(false);
 
   // Load categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+         setLoading(true);
         const res = await API.get(
           "/category"
         );
         setCategories(res.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
+      } finally{
+        setLoading(false)
       }
     };
 
@@ -42,7 +47,9 @@ const  ProductHistoryPanel = () => {
     console.error("Error fetching products:", error);
     setProducts([]);
   }
-};
+}; 
+
+ if(Loading) return <Loader />;
 
   return (
     <div className={styles.container}>
@@ -69,6 +76,8 @@ const  ProductHistoryPanel = () => {
                 <th>Name</th>
                 <th>Price</th>
                 <th>Stock</th>
+                <th>Stoc Keeping Unit</th>
+                <th>Low Stock Deatils</th>
               </tr>
             </thead>
             <tbody>
@@ -80,6 +89,8 @@ const  ProductHistoryPanel = () => {
                   <td>{prod.name}</td>
                   <td>₹ {prod.price}</td>
                   <td>{prod.quantity}</td>
+                  <td>{prod.sku}</td>
+                  <td>{prod.lowStockThreshold}</td>
                 </tr>
               ))}
             </tbody>

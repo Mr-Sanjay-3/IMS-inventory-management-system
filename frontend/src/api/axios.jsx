@@ -26,4 +26,11 @@ export const getAdminStatus = () => API.get('/admin/status');
 export const staffList = () => API.get('/employee');
 
 
+///export const LogoutAPI = axios.create({
+ // baseURL: 'http://localhost:8000/api',  // Same base URL or can be different for logout
+  //headers: {
+  ///  'Content-Type': 'application/json',
+  //},
+//});
+
 export default API;
