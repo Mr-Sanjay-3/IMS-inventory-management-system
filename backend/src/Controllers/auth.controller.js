@@ -9,9 +9,9 @@ dotenv.config()
 export const  login = async (req, res)=>{
 
     try {
-      console.log("REQ BODY:", req.body); 
+      //console.log("REQ BODY:", req.body); 
       
-      // const { email , password} =req.body
+   //const { email , password} =req.body
       const email = req.body.email?.toLowerCase().trim();
       const password = req.body.password;
       

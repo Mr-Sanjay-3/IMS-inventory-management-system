@@ -6,7 +6,6 @@ const alertSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Product',
       required: true,
-      unique: true
     },
     message: String,
     isResolved: {
@@ -18,3 +17,4 @@ const alertSchema = new mongoose.Schema(
 );
 
 export default mongoose.model('Alert', alertSchema);
+

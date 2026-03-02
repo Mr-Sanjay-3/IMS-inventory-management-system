@@ -2,12 +2,21 @@ import Category from "../models/Category.js";
 import Product from "../models/Product.js";
 
 /** Admin: Create category */
+
 export const createCategory = async (req, res) => {
+  console.log(req.body);
   try {
     const exists = await Category.findOne({ name: req.body.name });
     if (exists) {
       return res.status(400).json({ msg: "Category already exists" });
     }
+    //if array
+        // If array is sent
+    if (Array.isArray(req.body)) {
+      const categories = await Category.insertMany(req.body);
+      return res.status(201).json(categories);
+    }
+
     const category = await Category.create({
       name: req.body.name,
       description: req.body.description

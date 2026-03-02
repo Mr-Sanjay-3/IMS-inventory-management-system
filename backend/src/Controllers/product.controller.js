@@ -1,5 +1,6 @@
 import Product from '../models/Product.js';
-import Category from '../models/Category.js'
+import Category from '../models/Category.js';
+import Alert from '../models/LowStockAertSchema.js';
 /** Admin Can Create Products {Mean Admin permison need for product include} */
 export const createproduct = async (req, res)=>{
 try{
@@ -45,22 +46,44 @@ export const getProductById = async (req, res) => {
    * Admin: Update product
    */
   export const updateProduct = async (req, res) => {
-    try {
-      const product = await Product.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true }
-      );
-  
-      if (!product) {
-        return res.status(404).json({ msg: "Product not found" });
-      }
-  
-      res.json(product);
-    } catch (err) {
-      res.status(400).json({ msg: err.message });
+  try {
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    if (!product) {
+      return res.status(404).json({ msg: "Product not found" });
     }
-  };
+
+    // LOW STOCK CHECK
+    const LOW_STOCK_LIMIT = product.lowStockThreshold;
+
+    if (product.quantity <= LOW_STOCK_LIMIT) {
+      await Alert.findOneAndUpdate(
+        { product: product._id },
+        {
+          product: product._id,
+          message: `${product.name} is low on stock (${product.quantity} left)`,
+          isResolved: false,
+        },
+        { upsert: true, new: true }
+      );
+    } else {
+      // If stock is refilled, resolve existing alert automatically
+      await Alert.findOneAndUpdate(
+        { product: product._id },
+        { isResolved: true }
+      );
+    }
+
+    res.json(product);
+
+  } catch (err) {
+    res.status(400).json({ msg: err.message });
+  }
+};
   
   /*** Admin:  delete */
   export const deleteProduct = async (req, res) => {

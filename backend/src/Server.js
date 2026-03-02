@@ -7,18 +7,18 @@ import Product from './routes/product.routes.js';
 import Stock from './routes/stockMovement.routes.js';
 import Category  from './routes/category.route.js';
 import Supplier from './routes/suppllier.routes.js';
+//alert Route
 import StockAlert from './routes/alert.routes.js';
+//
 import AdminRoute from './routes/status.routes.js';
 import Employees from './routes/employee.route.js';
 import Logout from './routes/logout.routes.js';
 import CheckAdmin from './routes/checkAdmin.routes.js';
-import alertRoutes from './routes/alert.routes.js';
 
 dotenv.config()
 MongoDB();
 
-
-// express Connetion :) 
+//Cors Setup 
 const app = express()
 app.use(
     cors({
@@ -26,6 +26,7 @@ app.use(
     credentials: true ,
 })
 );
+// express Connetion :) 
 
 app.use(express.json());
 
@@ -39,7 +40,7 @@ app.use('/api/supplier', Supplier);
 app.use('/api/alert', StockAlert);
 app.use('/api', Logout);
 app.use('/api/employee', Employees);
-app.use('/api', alertRoutes);
+
 app.use((req, res,next)=>{
     success:false,
     res.status(404).json({msg:"Not found",

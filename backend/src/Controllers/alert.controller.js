@@ -1,4 +1,5 @@
-import Alert from '../models/LowStockAertSchema.js'; // Correct the import name
+import Alert from '../models/LowStockAertSchema.js'; 
+//import Product from '../models/Product.js';
 
 // Fetch low stock alerts
 export const getLowStockAlerts = async (req, res) => {
@@ -6,6 +7,7 @@ export const getLowStockAlerts = async (req, res) => {
     // Fetch unresolved low-stock alerts
     const alerts = await Alert.find({ isResolved: false }).populate("product");
     res.json({ alerts });
+    console.log("LOW STOCK LOGIC RUNNING");
   } catch (err) {
     console.error(err);
     res.status(400).json({ msg: err.message });
