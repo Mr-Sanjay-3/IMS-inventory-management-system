@@ -12,7 +12,7 @@ const Footer = () => {
       <div className={styles.container}>
         <p>© 2026 IMS Project | Built by SANJAY RANJTH SANKAR SANJAY  </p>
   <p className={styles.college}>
-       Commerce CA Final Year Students 2023-2026 |  
+       B.com CA Final Year Students Batch 2023-2026 |  
           <a
           href="https://roevercollege.ac.in/" 
           target="_blank"
