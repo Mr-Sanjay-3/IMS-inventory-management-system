@@ -94,7 +94,6 @@ const StaffNavbar = () => {
         >
           <MdOutlineLogout />
         </div>
-        {/* ADD BACKGROUND FOR MOBILE */}
       </nav>
     </div>
   );
