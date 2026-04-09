@@ -20,7 +20,6 @@ export const loginUser = (data)=> API.post('/auth/login', data);
 
 //Register API
 export const registerUser = (data)=> API.post('/auth/register', data);
-//////////////////////////////////////////////////////////////////////
 
 export const getAdminStatus = () => API.get('/admin/status');
 export const staffList = () => API.get('/employee');
